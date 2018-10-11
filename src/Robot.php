@@ -8,7 +8,7 @@ class Robot
     private $positionX;
     private $positionY;
     private $orientation;
-    private $lost;
+    private $lost = false;
 
     /**
      * Robot constructor.
@@ -75,6 +75,18 @@ class Robot
     public function getPos()
     {
         return [$this->positionX, $this->positionY];
+    }
+    /**
+     * @return string
+     */
+    public function printResult() {
+        return sprintf(
+            "%s %s %s %s\n",
+            $this->positionX,
+            $this->positionY,
+            $this->orientation,
+            ($this->isLost() ? 'LOST' : '')
+        );
     }
 
 }

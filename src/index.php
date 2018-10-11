@@ -1,6 +1,10 @@
 <?php
 spl_autoload_register(function ($class) { include  $class . '.php'; });
 
+if (sizeof($argv) == 1) {
+    die("Syntax: php " . $argv[0] . " <filename>\n");
+}
+
 $file = file($argv[1]);
 $init = trim(array_shift($file));
 $field = explode(' ', $init);
@@ -16,7 +20,13 @@ while ($robotInit = trim(array_shift($file))) {
 
 
     $robot = new \Robot($robotStart);
+    try {
     $game->moveRobot($robot, $robotCommands);
-    echo "input: init $robotInit, command $robotCommands\n";
+    } catch (Exception $e) {
+        echo sprintf("input: init: %s, command(s): %s\n",$robotInit,$robotCommands);
+        echo sprintf("Error processing file: (%s) %s\n",$e->getCode(),$e->getMessage());
+        continue;
+    }
+    echo sprintf("input: init: %s, command(s): %s\n",$robotInit,$robotCommands);
     echo $robot->printResult();
 }

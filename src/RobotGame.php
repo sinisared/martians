@@ -44,6 +44,7 @@ class RobotGame
 
     /**
      * Interpret move commands for robot
+     * Extend if different moves are available
      * @param Robot $robot
      * @param $command
      */
@@ -62,12 +63,15 @@ class RobotGame
                 case 'R':
                     $this->turnRight($robot);
                     break;
+                default:
+                    throw new \Exception(sprintf('Unknown command %s',$step),1);
             }
         }
     }
 
     /**
      * Moves forward a robot based on current direction
+     * TODO: Extend with different directions, i.e. diagonal
      *
      * @param Robot $robot
      */
@@ -99,6 +103,7 @@ class RobotGame
         if (!$this->isOnMars($x, $y)) {
             $this->setInvalid($x, $y);
             $robot->setLost();
+            return;
         }
 
         $robot->setX($x);
@@ -107,6 +112,7 @@ class RobotGame
 
     /**
      * Find if robot is on mars on given coordinates
+     * extend if mars is differently shaped
      * @param $x
      * @param $y
      * @return bool
